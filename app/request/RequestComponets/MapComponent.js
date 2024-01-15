@@ -1,9 +1,9 @@
 "use client";
 
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindow } from '@react-google-maps/api';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 
-export default function MapComponent() {
+export default function MapComponent(props) {
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
 
   const containerStyle = {
@@ -12,8 +12,8 @@ export default function MapComponent() {
   };
 
   const center = {
-    lat: 51.51220281066732,
-    lng: -0.09152185685364918
+    lat: -3.7500911497441876,
+    lng: -38.538217879572095
   };
 
   const options = {
@@ -47,6 +47,14 @@ export default function MapComponent() {
     console.log("the final longitude is:", event.latLng.lng())
   }
 
+
+  useEffect(() => {
+    if(props.searchOriginLatitude && props.searchOriginLongitude){
+      console.log(`map ${props.searchOriginLatitude} and ${props.searchOriginLongitude}`)
+    }
+  }, [props.searchOriginLatitude, props.searchOriginLongitude])
+
+
   return isLoaded ? (
       <GoogleMap
         mapContainerStyle={containerStyle}
@@ -56,8 +64,16 @@ export default function MapComponent() {
         onClick={() => setIsInfoWindowOpen(false)}
       >
         { /* Child components, such as markers, info windows, etc. */ }
-        <MarkerF
-          position={{ lat: 51.50564400635568, lng: -0.07531847571146957 }}
+        {(props.searchOriginLatitude != null && props.searchOriginLongitude != null) && (
+          <MarkerF
+            position={{
+              lat:props.searchOriginLatitude,
+              lng:props.searchOriginLongitude
+            }}
+          />
+        )}
+       {/* <MarkerF
+          position={{ lat: -3.7769816422099645, lng: -38.54556575583966 }}
           icon={pinIcon}
           visible={true}
           cursor={'pointer'}
@@ -68,7 +84,7 @@ export default function MapComponent() {
           { isInfoWindowOpen && (
               <InfoWindow
                 onCloseClick={() => setIsInfoWindowOpen(false)}
-                position={{ lat: 51.50564400635568, lng: -0.07531847571146957 }}
+                position={{ lat: -3.7769816422099645, lng: -38.54556575583966  }}
               >
               <div className='w-80 p-2'>
                 <div className='flex items-center mb-2 space-x-5'>
@@ -87,8 +103,7 @@ export default function MapComponent() {
               </div>
             </InfoWindow>
           )}
-        </MarkerF>
-        <></>
+        </MarkerF> */}
       </GoogleMap>
   ) : <></>
 }

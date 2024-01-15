@@ -1,4 +1,4 @@
-import MapComponent from "./RequestComponets/MapComponent";
+import ParentRequestComponent from "./RequestComponets/ParentRequestComponent"
 
 export const metadata = {
   title: 'Trip Reuest | Next js',
@@ -7,6 +7,6 @@ export const metadata = {
 
 export default function RequestPage() {
   return (
-    <MapComponent />
+    <ParentRequestComponent />
   )
 }

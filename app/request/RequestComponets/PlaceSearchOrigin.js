@@ -13,7 +13,7 @@ export default function PlaceSearchOrigin() {
     searchOriginLatitude,
     searchOriginLongitude,
     setSearchOriginLatitude,
-    setSearchOriginLongitude
+    setSearchOriginLongitude,
   } = useRequest();
 
   const {
@@ -56,14 +56,31 @@ export default function PlaceSearchOrigin() {
         const { lat, lng } = getLatLng(results[0]);
         console.log("📍 Coordinates: ", { lat, lng });
 
-        setSearchOriginLatitude(lat);
-        setSearchOriginLongitude(lng);
+        smoothTransition({ lat, lng });
       });
     };
 
+  const smoothTransition = (newPosition) => {
+    const startLat = searchOriginLatitude;
+    const startLng = searchOriginLongitude;
+    const steps = 100; // Number of steps for the transition
+
+    for (let i = 0; i <= steps; i++) {
+      setTimeout(() => {
+        const lat = startLat + (i / steps) * (newPosition.lat - startLat);
+        const lng = startLng + (i / steps) * (newPosition.lng - startLng);
+
+        setSearchOriginLatitude(lat);
+        setSearchOriginLongitude(lng);
+      }, i * 10); // Adjust the duration of each step
+    }
+  };
+
   useEffect(() => {
-    if(searchOriginLatitude && searchOriginLongitude){
-      console.log(`Retrived ${searchOriginLatitude} and ${searchOriginLongitude}`)
+    if (searchOriginLatitude && searchOriginLongitude) {
+      console.log(
+        `Retrived ${searchOriginLatitude} and ${searchOriginLongitude}`
+      );
     }
   }, [searchOriginLatitude, searchOriginLongitude]);
 

@@ -5,15 +5,14 @@ import { useEffect, useState } from 'react';
 
 export default function MapComponent(props) {
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
+  const [center, setCenter] = useState({
+    lat: -3.7500911497441876,
+    lng: -38.538217879572095
+  });
 
   const containerStyle = {
     width: '100%',
     height: '90vh'
-  };
-
-  const center = {
-    lat: -3.7500911497441876,
-    lng: -38.538217879572095
   };
 
   const options = {
@@ -50,7 +49,11 @@ export default function MapComponent(props) {
 
   useEffect(() => {
     if(props.searchOriginLatitude && props.searchOriginLongitude){
-      console.log(`map ${props.searchOriginLatitude} and ${props.searchOriginLongitude}`)
+      console.log(`map ${props.searchOriginLatitude} and ${props.searchOriginLongitude}`);
+      setCenter({
+        lat: props.searchOriginLatitude,
+        lng: props.searchOriginLongitude
+      });
     }
   }, [props.searchOriginLatitude, props.searchOriginLongitude])
 

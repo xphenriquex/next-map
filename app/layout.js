@@ -1,6 +1,7 @@
 import { Inter } from 'next/font/google'
 import './globals.css'
 import Header from './RootComponents/header'
+import { RequestContextProvider } from './context/RequestContext'
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +21,7 @@ export default function RootLayout({ children }) {
       </head>
       <body className={inter.className} suppressHydrationWarning={true}>
         <Header />
-        {children}
+        <RequestContextProvider>{children}</RequestContextProvider>
       </body>
     </html>
   )

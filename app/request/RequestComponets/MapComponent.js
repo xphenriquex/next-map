@@ -2,13 +2,19 @@
 
 import { GoogleMap, useJsApiLoader, MarkerF, InfoWindow } from '@react-google-maps/api';
 import { useEffect, useState } from 'react';
+import { useRequest } from "../../context/RequestContext";
 
-export default function MapComponent(props) {
+export default function MapComponent() {
   const [isInfoWindowOpen, setIsInfoWindowOpen] = useState(false);
   const [center, setCenter] = useState({
     lat: -3.7500911497441876,
     lng: -38.538217879572095
   });
+
+  const {
+    searchOriginLatitude,
+    searchOriginLongitude,
+  } = useRequest();
 
   const containerStyle = {
     width: '100%',
@@ -48,14 +54,14 @@ export default function MapComponent(props) {
 
 
   useEffect(() => {
-    if(props.searchOriginLatitude && props.searchOriginLongitude){
-      console.log(`map ${props.searchOriginLatitude} and ${props.searchOriginLongitude}`);
+    if(searchOriginLatitude && searchOriginLongitude){
+      console.log(`map ${searchOriginLatitude} and ${searchOriginLongitude}`);
       setCenter({
-        lat: props.searchOriginLatitude,
-        lng: props.searchOriginLongitude
+        lat: searchOriginLatitude,
+        lng: searchOriginLongitude
       });
     }
-  }, [props.searchOriginLatitude, props.searchOriginLongitude])
+  }, [searchOriginLatitude, searchOriginLongitude])
 
 
   return isLoaded ? (
@@ -67,11 +73,11 @@ export default function MapComponent(props) {
         onClick={() => setIsInfoWindowOpen(false)}
       >
         { /* Child components, such as markers, info windows, etc. */ }
-        {(props.searchOriginLatitude != null && props.searchOriginLongitude != null) && (
+        {(searchOriginLatitude != null && searchOriginLongitude != null) && (
           <MarkerF
             position={{
-              lat:props.searchOriginLatitude,
-              lng:props.searchOriginLongitude
+              lat: searchOriginLatitude,
+              lng: searchOriginLongitude
             }}
           />
         )}

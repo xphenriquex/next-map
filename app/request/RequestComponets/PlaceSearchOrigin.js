@@ -5,9 +5,16 @@ import usePlacesAutocomplete, {
   getLatLng,
 } from "use-places-autocomplete";
 import useOnclickOutside from "react-cool-onclickoutside";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useRequest } from "../../context/RequestContext";
 
-export default function PlaceSearchOrigin(props) {
+export default function PlaceSearchOrigin() {
+  const {
+    searchOriginLatitude,
+    searchOriginLongitude,
+    setSearchOriginLatitude,
+    setSearchOriginLongitude
+  } = useRequest();
 
   const {
     ready,
@@ -24,6 +31,7 @@ export default function PlaceSearchOrigin(props) {
     },
     debounce: 300,
   });
+
   const ref = useOnclickOutside(() => {
     // When the user clicks outside of the component, we can dismiss
     // the searched suggestions by calling this method
@@ -47,17 +55,17 @@ export default function PlaceSearchOrigin(props) {
       getGeocode({ address: description }).then((results) => {
         const { lat, lng } = getLatLng(results[0]);
         console.log("📍 Coordinates: ", { lat, lng });
-        console.log(props);
-        props.setSearchOriginLatitude(lat);
-        props.setSearchOriginLongitude(lng);
+
+        setSearchOriginLatitude(lat);
+        setSearchOriginLongitude(lng);
       });
     };
 
   useEffect(() => {
-    if(props.searchOriginLatitude && props.searchOriginLongitude){
-      console.log(`Retrived ${props.searchOriginLatitude} and ${props.searchOriginLongitude}`)
+    if(searchOriginLatitude && searchOriginLongitude){
+      console.log(`Retrived ${searchOriginLatitude} and ${searchOriginLongitude}`)
     }
-  }, [props.searchOriginLatitude, props.searchOriginLongitude])
+  }, [searchOriginLatitude, searchOriginLongitude]);
 
   const renderSuggestions = () =>
     data.map((suggestion) => {

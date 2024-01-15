@@ -1,15 +1,9 @@
 import PlaceSearchOrigin from "./PlaceSearchOrigin";
 
-export default function RequestForm(props) {
-
+export default function RequestForm() {
   return (
     <form className="flex flex-col mt-5 mx-2">
-      <PlaceSearchOrigin
-        searchOriginLatitude={props.searchOriginLatitude}
-        searchOriginLongitude={props.searchOriginLongitude}
-        setSearchOriginLatitude={props.setSearchOriginLatitude}
-        setSearchOriginLongitude={props.setSearchOriginLongitude}
-      />
+      <PlaceSearchOrigin />
       <input
         className="bg-black my-2 h-10 rounded-xl text-white font-bold p-2"
         placeholder="Your destination"
